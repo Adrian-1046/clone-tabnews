@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:check": "prettier --check .",
+    "lint:fix": "prettier --write ."
   },
   "author": "Adrian Medeiros",
   "license": "MIT",
@@ -14,5 +15,8 @@
     "nodejs": "^0.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2"
   }
 }
