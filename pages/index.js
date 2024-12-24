@@ -1,9 +1,9 @@
 function Home() {
   return (
-      <h1>
-        Te amo, Lav&iacute;nia!
-      </h1>
-    
+    <body>
+      <h1>FELIZ NATAL A TODOSS!</h1>
+      <p>Este site está em construção</p>
+    </body>
   );
 }
 
