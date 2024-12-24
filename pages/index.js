@@ -1,8 +1,10 @@
 function Home() {
   return (
     <body>
-      <h1>FELIZ NATAL A TODOSS!</h1>
-      <p>Este site está em construção</p>
+      <h1>Site em construção!</h1>
+      <p>Desenvolvedores envolvidos: Adrian Bellezzo Medeiros, -</p>
+      <br></br>
+      <small> &copy; Coudray, 2025</small>
     </body>
   );
 }
