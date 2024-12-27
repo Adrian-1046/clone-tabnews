@@ -1,6 +1,6 @@
 function status(req, res) {
   res.status(200).json({
-    chave: "BALA",
+    status: "200 | OK",
   });
 }
 export default status;
