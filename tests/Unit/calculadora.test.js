@@ -1,4 +1,4 @@
-const calculadora = require("../models/calculadora.js");
+const calculadora = require("../..calculadora.js");
 
 test("calcular média com argumentos VÁLIDOS", () => {
   const resultado = calculadora.calcularMedia([7.8, 9, 8.4, 9.6]);
