@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run services:up && next dev",
+    "dev": "npm run services:up && npm run wait-for-smdb && npm run migration:up && next dev",
     "services:status": "docker compose -f infra/compose.yaml ps -a",
     "services:up": "docker compose -f infra/compose.yaml up -d",
     "services:up -f": "docker compose -f infra/compose.yaml up -d --force-recreate",
@@ -16,7 +16,8 @@
     "test": "jest --runInBand",
     "test:watch": "jest --watchAll --runInBand",
     "migration:create": "node-pg-migrate --migrations-dir infra/migrations create",
-    "migration:up": "node-pg-migrate --migrations-dir infra/migrations --envPath .env.development up"
+    "migration:up": "node-pg-migrate --migrations-dir infra/migrations --envPath .env.development up",
+    "wait-for-smdb": "node infra/scripts/wait-for-smdb.js"
   },
   "author": "Adrian Medeiros",
   "license": "MIT",
