@@ -1,6 +1,4 @@
 const { exec } = require("node:child_process");
-const { log } = require("node:console");
-const { TIMEOUT } = require("node:dns/promises");
 
 function checkSMDB() {
   exec("docker exec smdb-dev pg_isready --host localhost", handleReturn);
