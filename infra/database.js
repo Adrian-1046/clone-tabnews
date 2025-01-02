@@ -30,15 +30,16 @@ async function getNewClient() {
   await client.connect();
   return client;
 }
-
-export default {
+const database = {
   query,
   getNewClient,
 };
 
+export default database;
+
 function getSSLConfig() {
   if (process.env.CERTIFICATE) {
-    ca: process.env.CERTIFICATE;
+    process.env.CERTIFICATE;
   }
   return process.env.NODE_ENV === "production" ? true : false;
 }
