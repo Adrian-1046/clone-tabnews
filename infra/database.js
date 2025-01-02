@@ -31,13 +31,16 @@ async function getNewClient() {
   return client;
 }
 
-export default {
+const database = {
   query,
   getNewClient,
 };
 
+export default database;
+
 function getSSLConfig() {
   if (process.env.CERTIFICATE) {
+    // eslint-disable-next-line no-unused-labels
     ca: process.env.CERTIFICATE;
   }
   return process.env.NODE_ENV === "production" ? true : false;
