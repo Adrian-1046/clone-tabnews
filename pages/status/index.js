@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import Styles from "./style.module.css";
 
 async function fetchAPI(key) {
   const response = await fetch(key);
@@ -9,11 +10,11 @@ async function fetchAPI(key) {
 
 export default function StatusPage() {
   return (
-    <>
+    <div className={Styles.mainInfo}>
       <h1>Status</h1>
       <UpdatedAt />
       <DatabaseStatus />
-    </>
+    </div>
   );
 }
 
@@ -24,13 +25,16 @@ function UpdatedAt() {
   });
 
   let UpdatedAtResult = "Carregando...";
+  let situacao = "Inoperante";
 
   if (!isLoading && data) {
     UpdatedAtResult = new Date(data.updated_at).toLocaleString("pt-BR");
+    situacao = "Ativo";
   }
 
   return (
     <>
+      <p>Situação: {situacao} </p>
       <p>Última atualização: {UpdatedAtResult}</p>
     </>
   );
@@ -41,7 +45,6 @@ function DatabaseStatus() {
     refreshInterval: 1000,
     dedupingInterval: 1000,
   });
-  console.log(data);
 
   let databaseStatusInformation = "Carregando...";
 

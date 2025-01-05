@@ -2,7 +2,7 @@ import database from "infra/database.js";
 
 async function status(request, response) {
   const updatedAt = new Date().toISOString();
-  const smdbVersion = await database.query("SELECT Version();");
+  const smdbVersion = await database.query("SHOW server_version");
   const maxConnections = await database.query("SHOW max_connections;");
   const databaseName = process.env.POSTGRES_DB;
   const usedConnections = await database.query({
@@ -14,7 +14,7 @@ async function status(request, response) {
     updated_at: updatedAt,
     dependencies: {
       database: {
-        smdb_version: smdbVersion.rows[0].version,
+        smdb_version: smdbVersion.rows[0].server_version,
         max_connections: parseInt(maxConnections.rows[0].max_connections),
         used_connections: parseInt(usedConnections.rows[0].used_connections),
       },
