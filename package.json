@@ -21,7 +21,7 @@
     "lint:prettier:fix": "prettier --write .",
     "lint:eslint:check": "next lint --dir .",
     "prepare": "husky",
-    "commit": "npx secretlint \"**/*\" && cz",
+    "commit": "npm run lint:eslint:check && npm run lint:prettier:check && npx secretlint \"**/*\" && cz",
     "commit:all": "git add -A && npm run commit"
   },
   "author": "Adrian Medeiros",
