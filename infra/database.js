@@ -1,4 +1,5 @@
 import { Client } from "pg";
+import { internalServerError } from "infra/errors";
 
 async function query(queryObject) {
   let client;
@@ -10,10 +11,16 @@ async function query(queryObject) {
 
     return result;
   } catch (error) {
-    console.error(error);
+    const publicErrorObject = new internalServerError({
+      cause: error,
+    });
+
+    console.log("\n erro dentro do catch do database.js");
+    console.error(publicErrorObject);
+
     throw error;
   } finally {
-    await client.end();
+    await client?.end();
   }
 }
 
