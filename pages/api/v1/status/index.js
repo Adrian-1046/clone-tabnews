@@ -1,7 +1,43 @@
+import { createRouter } from "next-connect";
 import database from "infra/database.js";
-import { internalServerError } from "infra/errors";
+import { internalServerError, MethodNotAllowedError } from "infra/errors";
 
-async function status(request, response) {
+const router = createRouter();
+
+router.get(getHandler);
+
+export default router.handler({
+  onNoMatch: onNoMatchHandler,
+  onError: onErrorHandler,
+});
+
+function onNoMatchHandler(request, response) {
+  const publicErrorObject = new MethodNotAllowedError();
+  response.status(publicErrorObject.statusCode).json(publicErrorObject);
+}
+
+function onErrorHandler(error, request, response) {
+  const publicErrorObject = new internalServerError({
+    cause: error,
+  });
+  console.log("\nErro dentro do catch do controler api/v1/status:");
+  console.log(publicErrorObject);
+
+  response.status(500).json(publicErrorObject);
+}
+
+async function getHandler(request, response) {
+  if (request.method !== "GET") {
+    console.log(
+      `Method ${request.method} not allowed in getHandler at api/v1/migrations`,
+    );
+
+    const publicErrorObject = new MethodNotAllowedError();
+    return response
+      .status(publicErrorObject.statusCode)
+      .json(publicErrorObject);
+  }
+
   try {
     const updatedAt = new Date().toISOString();
     const smdbVersion = await database.query("SHOW server_version");
@@ -23,13 +59,6 @@ async function status(request, response) {
       },
     });
   } catch (error) {
-    const publicErrorObject = new internalServerError({
-      cause: error,
-    });
-    console.log("\nErro dentro do catch do controler api/v1/status:");
-    console.log(publicErrorObject);
-
-    response.status(500).json(publicErrorObject);
+    console.log(error);
   }
 }
-export default status;
