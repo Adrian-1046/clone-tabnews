@@ -1,7 +1,22 @@
+import { createRouter } from "next-connect";
 import database from "infra/database.js";
-import { internalServerError } from "infra/errors";
+import { MethodNotAllowedError } from "infra/errors";
+import controller from "infra/controller";
 
-async function status(request, response) {
+const router = createRouter();
+
+router.get(getHandler);
+
+export default router.handler(controller.errorHandlers);
+
+async function getHandler(request, response) {
+  if (request.method !== "GET") {
+    const publicErrorObject = new MethodNotAllowedError();
+    return response
+      .status(publicErrorObject.statusCode)
+      .json(publicErrorObject);
+  }
+
   try {
     const updatedAt = new Date().toISOString();
     const smdbVersion = await database.query("SHOW server_version");
@@ -23,13 +38,6 @@ async function status(request, response) {
       },
     });
   } catch (error) {
-    const publicErrorObject = new internalServerError({
-      cause: error,
-    });
-    console.log("\nErro dentro do catch do controler api/v1/status:");
-    console.log(publicErrorObject);
-
-    response.status(500).json(publicErrorObject);
+    console.log(error);
   }
 }
-export default status;

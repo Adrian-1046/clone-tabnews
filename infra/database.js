@@ -1,5 +1,5 @@
 import { Client } from "pg";
-import { internalServerError } from "infra/errors";
+import { ServiceError } from "infra/errors";
 
 async function query(queryObject) {
   let client;
@@ -11,12 +11,11 @@ async function query(queryObject) {
 
     return result;
   } catch (error) {
-    const publicErrorObject = new internalServerError({
+    const serviceErrorObject = new ServiceError({
+      message: "Erro na conexão com banco de dados ou validação da query.",
       cause: error,
     });
-
-    console.log("\n erro dentro do catch do database.js");
-    console.error(publicErrorObject);
+    console.error(serviceErrorObject);
 
     throw error;
   } finally {
